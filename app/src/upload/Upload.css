@@ -23,6 +23,10 @@
   overflow-y: auto;
 }
 
+.FileInput {
+  display: none;
+}
+
 .Actions {
   display: flex;
   flex: 1;
@@ -35,4 +39,8 @@
 .Title {
   margin-bottom: 32px;
   color: #555;
+}
+
+.Highlight {
+  background-color: rgb(188, 185, 236);
 }

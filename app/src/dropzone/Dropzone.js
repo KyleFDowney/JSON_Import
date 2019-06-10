@@ -4,10 +4,22 @@ import "./Dropzone.css";
 class Dropzone extends Component {
   constructor(props) {
     super(props);
+    this.state = { hightlight: false };
     this.fileInputRef = React.createRef();
 
     this.openFileDialog = this.openFileDialog.bind(this);
     this.onFilesAdded = this.onFilesAdded.bind(this);
+    this.onDragOver = this.onDragOver.bind(this);
+    this.onDragLeave = this.onDragLeave.bind(this);
+    this.onDrop = this.onDrop.bind(this);
+  }
+
+  onDragOver(evt) {
+    evt.preventDefault();
+
+    if (this.props.disabled) return;
+
+    this.setState({ hightlight: true });
   }
 
   openFileDialog() {
@@ -35,7 +47,10 @@ class Dropzone extends Component {
   render() {
     return (
       <div
-        className="Dropzone"
+        className={`Dropzone ${this.state.hightlight ? "Highlight" : ""}`}
+        onDragOver={this.onDragOver}
+        onDragLeave={this.onDragLeave}
+        onDrop={this.onDrop}
         onClick={this.openFileDialog}
         style={{ cursor: this.props.disabled ? "default" : "pointer" }}
       >
