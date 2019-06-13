@@ -14,12 +14,29 @@ class Dropzone extends Component {
     this.onDrop = this.onDrop.bind(this);
   }
 
+  onDrop(event) {
+    event.preventDefault();
+  
+    if (this.props.disabled) return;
+  
+    const files = event.dataTransfer.files;
+    if (this.props.onFilesAdded) {
+      const array = this.fileListToArray(files);
+      this.props.onFilesAdded(array);
+    }
+    this.setState({ hightlight: false });
+  }
+
   onDragOver(evt) {
     evt.preventDefault();
-
+  
     if (this.props.disabled) return;
-
+  
     this.setState({ hightlight: true });
+  }
+
+  onDragLeave() {
+    this.setState({ hightlight: false });
   }
 
   openFileDialog() {
@@ -71,3 +88,5 @@ class Dropzone extends Component {
     );
   }
 }
+
+default Dropzone
