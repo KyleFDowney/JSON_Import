@@ -44,6 +44,29 @@ class Upload extends Component {
     }
   }
 
+  renderActions() {
+    if (this.state.successfullUploaded) {
+      return (
+        <button
+          onClick={() =>
+            this.setState({ files: [], successfullUploaded: false })
+          }
+        >
+          Clear
+        </button>
+      );
+    } else {
+      return (
+        <button
+          disabled={this.state.files.length < 0 || this.state.uploading}
+          onClick={this.uploadFiles}
+        >
+          Upload
+        </button>
+      );
+    }
+  }
+
   render() {
     return (
       <div className="Upload">
@@ -68,7 +91,7 @@ class Upload extends Component {
             })}
           </div>
         </div>
-        <div className="Actions" />
+        <div className="Actions">{this.renderActions()}</div>
       </div>
     );
   }
