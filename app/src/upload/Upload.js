@@ -44,6 +44,22 @@ class Upload extends Component {
     }
   }
 
+  async uploadFiles() {
+    this.setState({ uploadProgress: {}, uploading: true });
+    const promises = [];
+    this.state.files.forEach(file => {
+      promises.push(this.sendRequest(file));
+    });
+    try {
+      await Promise.all(promises);
+
+      this.setState({ successfullUploaded: true, uploading: false });
+    } catch (e) {
+      // Not Production ready! Do some error handling here instead...
+      this.setState({ successfullUploaded: true, uploading: false });
+    }
+  }
+
   renderActions() {
     if (this.state.successfullUploaded) {
       return (
@@ -65,6 +81,18 @@ class Upload extends Component {
         </button>
       );
     }
+  }
+
+  sendRequest(file) {
+    return new Promise((resolve, reject) => {
+      const req = new XMLHttpRequest();
+
+      const formData = new FormData();
+      formData.append("file", file, file.name);
+
+      req.open("POST", "http://localhost:8000/upload");
+      req.send(formData);
+    });
   }
 
   render() {
